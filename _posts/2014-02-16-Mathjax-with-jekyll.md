@@ -2,7 +2,8 @@
 layout: post
 title: "MathJax with Jekyll"
 date: 2014-02-16
-categories: page guide
+categories:
+- page guide
 tags: [resources, jekyll]
 image: http://gastonsanchez.com/images/blog/mathjax_logo.png
 ---
