@@ -1,6 +1,7 @@
 ---
 layout: page
 type: about
+title: Call Me By My Name
 ---
 
 # Call Me By My Name
