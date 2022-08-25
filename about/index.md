@@ -1,16 +1,15 @@
 ---
 layout: page
 type: about
----
-<br/>
-<br/>
-<br/>
-<br/>
+---  
+   
+      
+         
+            
+# Call Me By My Name
+   
    
 ---
-# Call Me By My Name
-
-
 여기다가 자소설 갖다 붙이면 될 듯!
 ---
    
