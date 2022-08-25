@@ -209,7 +209,8 @@ font:
 # Key is the link label showing to end users.
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
 #social:
-  #LinkLabel: Link
+  GitHub: https://github.com/facie313
+  Instagram: https://instagram.com/hipfairy
 
 
 # Social Links Icons
@@ -220,7 +221,7 @@ font:
 social_icons:
   enable: true
   # Icon Mappings.
-  KeyMapsToSocialItemKey: NameOfTheIconFromFontAwesome
+  #KeyMapsToSocialItemKey: NameOfTheIconFromFontAwesome
   GitHub: github
   Instagram: instagram
 
