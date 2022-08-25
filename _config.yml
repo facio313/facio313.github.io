@@ -210,8 +210,7 @@ font:
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
 #social:
   GitHub: https://github.com/facie313
-  Instagram: https://instagram.com/hipfairy
-
+  
 
 # Social Links Icons
 # Icon Mapping:
@@ -223,7 +222,6 @@ social_icons:
   # Icon Mappings.
   #KeyMapsToSocialItemKey: NameOfTheIconFromFontAwesome
   GitHub: github
-  Instagram: instagram
 
 
 # Sidebar Avatar
