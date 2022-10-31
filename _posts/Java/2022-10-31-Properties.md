@@ -11,8 +11,9 @@ tags: [properties, 환경설정]
 # Properties
 - 매개인자 등을 저장하는 확장자 파일로 애플리케이션의 환경 설정 정보, DB 연결 정보 등을 주로 저장한다.(xml, yml과 비슷하다)
 - 설정 정보 등은 바뀔 수 있어 하드코딩하지 않고, 변경 시 재컴파일을 막을 수 있기에 사용한다.
-- Hashtables의 하위 클래스인 Properties는 Map으로 Key와 Value를 갖고, 차이점으로 FileIO를 지원한다.
-
+- Hashtables의 하위 클래스인 Properties는 Map으로 Key와 Value를 갖고, 차이점으로 FileIO를 지원한다.'
+ 
+***
 ***
 
 # 작성 예시
