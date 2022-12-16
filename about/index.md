@@ -3,15 +3,7 @@ layout: page
 type: about
 title: Call Me By My Name
 ---  
-   <br>
-   <br>
-   <br>
-   <br>
-   <br>
-   <br>
-차근차근 채워나가는 곳. 먼저 나도 내가 누군지 좀 알아야 하지 않을까
-   
----
+양식   
    
 ## 대충 첫 번째 항목
    
