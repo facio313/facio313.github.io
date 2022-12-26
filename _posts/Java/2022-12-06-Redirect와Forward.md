@@ -90,6 +90,8 @@ public class VolRegisterController extends HttpServlet {
 	}
 }
 ```
+redirection 이후 마지막 데이터는 무조건 get방식
+jsp 수업에서 배운 거 추가하기
 
 # 두 개의 차이를 알았다면!
 request.setAttribute vs session.setAttribute
