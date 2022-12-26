@@ -117,36 +117,4 @@ public class Playground {
 ```
 이것 말고도 학생을 통해 예시를 들 수 있다. 학생(추상 부모 클래스)은 학교생활(template method)이 정형화되어있다. 등교(hook method1)를 하고 각자의 반에서 공부(abstract hook method2)하며 하교(hook method2)한다. 등교하고 공부한 후 하교하는 흐름은 같지만 반에서 공부하는 방식은 모두 다를 것이다. 근면성실하게 하는 학생(자식 클래스)이 있는 반면, 게으르게 하는 학생(자식 클래스)도 있다. 각자 공부하는 방법(override method2)이 있어서 보여주는 공부법도 다르다.
 
-## 코드 예시
-위에서 봤듯이 DAO에서는 정형화된 코드 방식이 존재한다. 그렇기에 이것을 쉽고 깔끔하게 만들어주는 MyBatis라는 framework가 존재한다. 이러한 것을 직접 만들어보자.
-### 기초적인 DAO
-```
-public class MemberDAOImpl1 implements MemberDAO {
-	@Override
-	public List<MemberVO> selectMemberList() {
-		String sql = " select * from member ";
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		try(
-			Connection conn = DriverManager.getConnection(url, user, password);
-			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-		){
-			ResultSet rs = pstmt.executeQuery();
-			List<MemberVO> memberList = new ArrayList<>();
-			while (rs.next()) {
-				MemberVO vo = new MemberVO();
-				vo.setMemId(rs.getString("mem_id"));
-				vo.setMemName(rs.getString("mem_name"));
-				memberList.add(vo);
-			}
-			return memberList;
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-}
-```
-### 
+위에서 봤듯이 DAO에서는 정형화된 코드 방식이 존재한다. 그렇기에 이것을 쉽고 깔끔하게 만들어주는 MyBatis라는 framework가 존재한다. 이러한 것을 직접 만들어보자. => MyBatis 게시글
