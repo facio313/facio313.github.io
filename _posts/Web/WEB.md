@@ -927,9 +927,9 @@ https://commons.apache.org/proper/commons-pool/
 
 쓰레기 코드(중복 코드)가 나가버리면 DAO에 남는 게 별로 없음..
 -framework-
-MyBatis: DAO와 DB를 사이에서 여러 역할을 하는 프레임워크
-Lombok : VO를 만드는 데에 지원해주는 프레임워크
-Hybernate / Validator : 제약조건 만드는 데에 지원해주는 프레임워크
+MyBatis: DAO와 DB를 사이에서 여러 역할을 하는 프레임워크 - reflection
+Lombok : VO를 만드는 데에 지원해주는 프레임워크 - reflection
+Hybernate / Validator : 제약조건 만드는 데에 지원해주는 프레임워크 - reflection
 Spring : Controller 프레임워크
 Tiles : View를 만드는 데에 지원해주는 프레임워크
 
@@ -941,6 +941,8 @@ Tiles : View를 만드는 데에 지원해주는 프레임워크
 
 
 MyBatis - 템플릿 어쩌고 디자인 패턴
+sql 맵퍼, 데이터 맵퍼, ?
+reflection 사용
 
 추상 메서드 - 형태가 고정되어있지 않음, 구현 안 돼있으면 인스턴스 생성X
 
@@ -961,9 +963,12 @@ reflection은 아주 중요하다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 붕어빵틀은 없는데 붕어빵만 있을 때, 붕어빵틀을 찾아내자!
 
 ===============================================================================
-maven - 빌드관리툴 - 중앙저장소라는 걸 갖고 있고 pom.xml에 설정 가능함
+maven - 빌드관리툴 - 중앙저장소라는 걸 갖고 있고 pom.xml(유일한 설정파일)에 설정 가능함
 1. template project 지원
 2. 의존성 관리 기능
+- jar파일
+plugin -> maven이 쓰는, 라이프 싸이클에서 사용하는 것
+dependency -> 우리가, 코드에서 사용하는 것
 
 ivy, grade 등등 다 빌드관리툴
 
@@ -976,3 +981,56 @@ sysdm.cpl
 플러그인
 설치 / 환경변수 / preference에서 maven-installation 메이븐 폴더 맞춰주기 / usersettings에서 repository 바꾸기
 선생님 교재 참고
+
+==================================================================================
+
+2022-12-27
+
+placeholder - 똑같은 기호라도 어디에서 사용하는가에 따라 달라짐
+
+벤더가 제공해주는 어쩌고가 뭐야 그걸로 바로 받는다던대
+
+maven에서 scope => 개발 영역, test-테스트만 / provided-배포 시 버림 / 생략, compile-전 영역 / runtime-개발 시 사용x / system-권하지 않음
+
+Object-Oriented applicatoin
+Relational Database
+M
+
+
+
+
+
+maven으로 불러와서 안 되면 라이브러리에 일일이 class열리나 확인하기. 안 되는 거 뭐가 있나 확인 후 qualifiedname 복사, 탐색기에 마지막 파일 이름 지우고 붙여넣기, 상위폴더 가서 지우기, 프로젝트에서 maven update project, 되나 보기
+
+=========================================================================================
+connection - DB에서는 session
+
+pom.xml -> dbinfo.properties -> mabatis-config.xml -> mapper(memo.xml) -> MybatisUtils.java ->
+
+facet 패턴
+
+
+라이브러리 - 설정파일(무)
+프레임워크 - 설정파일(유)
+
+
+============================================================================================
+log4j 사용방법
+
+
+log메세지 일괄관리
+
+
+Try-with-resources
+
+=============================================================================================
+1. domain layer 설계
+2. mybatis(member.xml)
+3. dao
+4. service
+5. controller
+6. view
+
+===============================================================================================
+Call By Reference
+Call by 
