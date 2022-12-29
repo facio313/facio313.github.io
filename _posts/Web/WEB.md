@@ -928,7 +928,7 @@ https://commons.apache.org/proper/commons-pool/
 쓰레기 코드(중복 코드)가 나가버리면 DAO에 남는 게 별로 없음..
 -framework-
 MyBatis: DAO와 DB를 사이에서 여러 역할을 하는 프레임워크 - reflection
-Lombok : VO를 만드는 데에 지원해주는 프레임워크 - reflection
+Lombok : VO를 만드는 데에 지원해주는 프레임워크 - reflection => 라이브러리하더라...
 Hybernate / Validator : 제약조건 만드는 데에 지원해주는 프레임워크 - reflection
 Spring : Controller 프레임워크
 Tiles : View를 만드는 데에 지원해주는 프레임워크
