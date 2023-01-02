@@ -2,7 +2,7 @@
 layout: post
 title: Git(remote)
 date: 2022-12-25
-published: true
+published: false
 description: 협업 툴 중 git의 remote 기능을 이용해보자
 categories: Git
 tags: [git, 깃, github]

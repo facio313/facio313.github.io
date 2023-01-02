@@ -2,7 +2,7 @@
 layout: post
 title: Git(5)
 date: 2022-12-30
-published: true
+published: false
 description: 협업 툴 중 git의 branch에 대해 알아보자
 categories: Git
 tags: [git, 깃, github, branch, 브랜치]

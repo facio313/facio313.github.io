@@ -3,7 +3,7 @@ layout: post
 title: Template Method
 description: Design pattern 중 하나인 Template Method pattern에 대해 알아보자
 date: 2022-12-26
-published: true
+published: false
 categories: Design Pattern
 ---
 # Template

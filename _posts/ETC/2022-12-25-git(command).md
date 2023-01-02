@@ -2,7 +2,7 @@
 layout: post
 title: Git(명령어 모음)
 date: 2022-12-25
-published: true
+published: false
 description: 협업 툴 중 git의 명령어를 알아보자
 categories: Git
 tags: [git, 깃, github, 명령어]
