@@ -1084,3 +1084,32 @@ SCHOLAR DATA => 값만 있는 것이지 크기나 방향은 없다
 "" 스트릭 알리아스
 
 annotation tracing
+=======================================================================================================
+1.3
+
+@을 달아서 DispatcherServlet(FCP)의 if문들을 없어버리기
+CP를 통해 결합력을 낮춤
+
+CommandObject
+
+invoker를 통해 receiver는 받게 되는데 의존성과 결합력이 생김
+그걸 Concrete Command라는 녀석이 결합력을 해결할 수 있음
+
+
+
+
+프로젝트 복사 후 세팅스에서 org.eclipse.wst.common.component에서 프로젝트명 바꿔주기
+
+
+languageLab object패키지
+
+
+marker interface : 메서드가 없는 annotation
+marker annotation : 속성이 없는 annotation
+
+
+Command Object : 사용자가 보내는 정보를 통째로 받는 객체(MemberVO, ProdVO 등)
+
+{} 코드블럭 : 생성자 역할
+
+CoC(Convention over Configuration) 패러다임
