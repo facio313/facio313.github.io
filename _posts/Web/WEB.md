@@ -1363,3 +1363,319 @@ Spring - EJB는 쓸 데 없는 것까지 만들어야 하는데, Spring은 POJO
 
 POJO라 개발 방식이 다양함...
 스프링 같은 프레임워크는 내 방법을 찾는 게 중요함
+
+스프링의 지향점을 잘 볼 줄 알아야 함.
+사용방법은 너무 방대하기 때무넹
+의존관계(결합력)을 해결해줌
+경량 Container는 생명주기를 관리!
+테스트가 편함- Junit과 spring 연동이 가능!
+
+
+
+====================================================================================
+1.10
+
+spring과 mybatis 연결
+
+주입 받을 대상이
+setter : 꼭 필요하지 않고, optional하다면 호출하지 않으면 그만
+contructor : 꼭 필요하면, 생성자로 하는 것이 안정
+
+
+spring은 하위 버전 호환성이 좋음
+
+
+어노테이션은 상속이란 구조가 없어서 extends를 할 수 없음
+상속의 효과가 필요할 때(중복을 제거할 때) meta-annotation 사용함
+@Component 붙이면 Component를 상속받은 것과 같음
+
+@Controller
+@Service
+@Repository
+들어가보면 다 @Component를 상속받음
+즉 @Component가 최상위
+
+상하위 컨테이너에서 다른 bean들을 받을 수 잇음
+- Model Layer => @Service @Repository @Component
+- Controller Layer => @Controller
+
+context에서 filter의 include와 exclude가 필요함
+```
+	<context:component-scan base-package="kr.or.ddit.sample" use-default-filters="false">
+	 <!-- use-default~를 통해서 안에서 필터링이 가능함, false하면 따로 붙였던 annotaion들이 꺼짐 -->
+	 <!-- 다시 등록하는 방법은 include나 exclude를 사용하는 것 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+```
+	
+
+스프링 -> POJO추구! => 이식성을 위해(다른 곳(like EJB) 갖고 가도 괜찮을~)
+그래서 @Autowired보단 @Resource를 쓰는 게 나음
+
+
+c,p는 bean을 직접 등록할 때!
+
+Spring이 bean을 관리할 때 특징 ! 싱글톤.
+하지만 프로토타입?으로 바꿔야 할 때도 있음
+@Scope(value) value나 ScopeName 같은 의미, 여기다 "prototype"이라 적어놓으면 매번 새로 만듬
+
+CPXAC
+GXAC?
+
+@Lazy : 객체를 나중에 만드는 것?
+
+Web.xml
+상위 컨테이너 -> app 전체를 대상으로 함
+  - listencer : 모든 컨테이너에서 사용될 수 있는 공통 bean의 상위 컨테이너를 만들어내는 것
+하위 컨테이너 -> dispatcher Servlet을 대상으로 함
+
+Controller와 View는 Http의 req와 resp를 사용해야만 하지만
+Model layer는 필요 없음
+그래서 Model은 상위 컨테이너로 가고, Controller와 View는 하위로 가야 함
+
+context란 정확히 먼가
+
+
+Controller, Service에서는 Service, Dao에 대한 의존관계가 필요함
+어노테이션 활용하는 건 결합력을 낮출 뿐
+
+init?
+
+ method reference?
+
+
+
+ =====================================================================================
+web.xml에서 설정
+
+ Model Layer => Root Context(상위 컨테이너)
+ |
+ scope
+ |
+ Controller Layer(request 처리), View Layer(response 처리) => Servlet-Context(하위 컨테이너)
+ * 우리가 알던 ServletContext와는 다름
+ * 하위에 HandlerMapping, HandlerAdapater, ViewResolver가 다 등록됨
+
+filter는 컨테이너(하위?) 안에 있어야 함!!!
+
+
+log4j vs slf4j
+
+scope 안에 있는 데이터를 attribute라고 한다.
+request.response.session과 같은 저수준의 api는 spring에서 잘 사용하지 않는다(HandlerAdapter가 Model을 request에 다 알아서 담아줌) => 사용할 수 없어는 아님
+
+HandlerAdapter에게 model과 view만 주면 되기 때문에 반환값이든 callbyreference든 상관 없음
+
+HandlerAdapter를 얼마나 사용하냐에 따라 개발자 등급이 나뉨
+
+그냥과 ref 차이? - 등록되어있냐 아니냐??
+
+===========================================================================================
+HandlerInterceptor - HandlerAdaptor와 Controller 사이에서 가로채는 애(Filter와 비슷함)
+
+메세지 아규먼트
+
+filter는 container 밖이라 bean 주입 불가
+interceptor는 container 안이라 bean 주입 가능
+
+
+
+400과 관련된 에러는 보통 개발자가 직접 일으키진 않고 핸들러 어댑터가 일으킴
+==============================================================================================
+1.web.xml
+상위 컨테이너
+-Model
+--구성파일 /*-context.xml => 하나가 아니라는 뜻
+--root-context.xml
+하위 컨테이너
+-Controller
+
+필드 나가면 4Tier가 적어도임...
+
+3Tire
+C
+M
+DB
+단점
+- 동적, 정적 자원 ... M이 혼자 둘 다 처리해야 함... => 부하
+
+$Tier로 가면 동적자원, 정적자원 처리하는 M이 둘로 나뉨
+- 정적 자원 => WS
+- 동적 자원 => WAS(A)
+* apache server는 WS, apache tomcat은 WAS
+* IRES는 WS
+* 제우스는 WAS
+
+개발환경에서 WS, WAS 나뉘면 매우 불편
+둘이 묶어서 개발함
+톰캣은 분명 WAS여야 하는데 WS처럼 동작했다는 건 그렇게 하게 해주는 뭔가가 있음!
+그게 뭐냐면~~ defaultServlet!
+
+톰캣이 web.xml이 있다면 톰캣도 하나의 어플리케이션이라는 이야기
+
+/ -> 정적 자원 처리한다는 패턴(상수처럼)
+
+우리꺼의 web.xml에 <url-pattern>에 /를 넣는다는 것은 정적 자원만 처리한다는 것
+이걸로 하면 동적 자원은 처리하지 못하고 정적 자원만 처리한 페이지를 보여줌
+구럼 대체 어떻게 해?...
+정적 자원을 처리해줄 수 있는 서블릿을 만들면 됨 -> 프레임워크에서 도와줌
+DispatchServlet을 관리하는 servlet-context.xml에서 처리해야 함
+<mvc:default-servlet-handler/>이거 넣어주면 끝이지만 이건 요청을 dispatchServlet이 받아서 톰캣에게 넘겨준 것이라 웬만하면 이걸 쓰지 말기!
+그래서 쓸 수 있는 것은 <mvc:resources location="/resources/" mapping="/resources/**" cache-period="0"/>
+브라우저는 정적자원을 받으면 저장해놓고 나중에 안 바꼈으면 자기꺼 그대로 갖다 씀 -> 이게 캐시
+만약에 cache-period를 0으로 주면 안 남김
+=========================================================================================
+1.12
+필터의 관리자는 spring container가 아니라 servlet container(tomcat)
+localeResolver를 써야 하는데 필터에서 쓰면 spring container에서는 쓸 수 없음
+그걸 interceptor를 이용하여 spring container에서도 쓸 수 있게함
+http는 stateless! locale을 한 번 받아서 써버리면 없어짐..
+그래서 locale을 쿠키에 저장하기~~
+
+DispatcherServlet - 정적자원, 동적자원 모든 request에 대한 처리의 책임이 있음
+정적자원은 원래 톰캣이 가진 defaultServlet이 처리해야 하는데 
+우리가 사용하는 유일한 서블릿은 DispacherServlet.
+서블릿 설정 파일에다가 /로 모든 요청을 처리한다고 할 때 동적 자원은 안 보여주게 됨..
+그럼 어떻게? 
+그래서 쓸 수 있는 것은 <mvc:resources location="/resources/" mapping="/resources/**" cache-period="0"/>
+브라우저는 정적자원을 받으면 저장해놓고 나중에 안 바꼈으면 자기꺼 그대로 갖다 씀 -> 이게 캐시
+만약에 cache-period를 0으로 주면 안 남김
+근데 만약 분산되면 못 씀....
+분산되면 defaultServlet을 넣어줘야 함.
+근데 추천 안 함..
+왜냐면 해쉬를 일괄적으로 관리해주려면 한 곳에 저장해주는 게 나음
+
+
+사용할 객체가 있어! 제일 먼저 해야 할 건 컨테이너에 등록
+
+
+마샬링(with 직렬화) 하려면 MJJV를 사용해야 하는데 이걸 반환타입으로 넣게 되면 prefix와 suffix가 붙게 됨 => 그래서 IRVR는 못 쓰게 됨. 다른 ViewResolver가 필요한데 BeanNameViewResolver가 필요함(BeanName은 id)
+
+@RequestMapping(produces)->Accpet와 관련 // 생산자(내가 json을 생산하겠다 -> 물론 클라이언트 요구 사항에 맞게 => 그 요구사항이 accept - accept는 contenttype과 연관도 됨)
+즉, accept는 두 가지 뜻! 클라이언트가 뭘 원하는지? 내가 어떤 걸로 내보낼 건지?
+@RequestMapping(consume) ->ContentType과 관련(body가 있냐 없냐) // 소비자
+
+""로 직접 주는 건 타입안정성이 떨어짐
+그래서 이넘 사용
+
+
+
+UR(자원)I(식별자) : 명사
+http method : 동사
+RESTful URI 구조 (비동기 처리 활용)
+parameter -> path variable(경로변수) - parameter를 안 쓰는 것은 아님
+/prod/prodInsert.do -> do는 하다라는 동사, 별로 식별자 역할 안 함
+/prod (GET) 전체 상품 조회
+/prod (POST) 신규 상품 등록
+/prod (DELETE) 전체 상품 삭제
+/prod/P101000001 (DELETE) 상품 하나 삭제
+/prod/P101000001 (GET) 상품 하나 조회
+/prod/P101000001 (PUT) 상품 하나 수정
+
+/prod (POST) 신규 상품 등록
+/prod/form (GET)
+
+RESTful URI 구조는 동기처리에서는 잘 활용 X memo관리하는 거에는 다 쓸 수 있음!(비동기니까) 해봐봐
+
+
+spring에서는 file객체를 직접적으로 쓸 필요 없음. resource를 쓰면 됨
+spring container는 그 자체로 resource order가 된다.
+자기 자신 안에 등록되어 있는 bean 객체가 잇음
+
+<form:form> => value에 대한 생각을 따로 안 해도 됨
+
+Map vs VO
+Map key는 임의
+VO Property는 (reflection에서 어쩌고?) 이미 확정
+
+
+
+=================================================================================================
+
+SqlSession이 열리면 트랙잭션 시작
+
+
+트랜잭션 관리 -> 다오를 통해서 vs 비즈니스 로직을 통해서
+선생님은 트랜잭션은 업무의 단위이기 때문에 비즈니스 로직을 통해서
+근데 문제가 생김... 비즈니스 로직이 마이바티스와 바로 연결됨
+
+마이바티스를 부르는 이름 : DM SM ORM PersistenceFramework
+
+properties관련
+context
+util 스프링el 사용 가능
+
+
+proxy라는 애!!!
+매번 만들던 proxy를 spring container로 보내버린 것 그래서 싱글톤으로 만들어서 재활용
+단점은 처음 서버 구동 시 한 번에 다 만들어야 하기 때문에 부하가 됨
+경웨 따라서 다오의 구현체를 만들지 마라라고 하는 곳도 있음
+
+===================================================================================================
+
+20230113
+
+web.xml의 ContextLoaderListener
+
+AOP, 프록시
+
+프로젝트 설계 요람부터 무덤까지~
+1. 데이터베이스 설계 구조 필요
+2. Maven project 만들기(심플 어쩌고 체크해주고~war설정)
+3. pom.xml -> Maven update -> JRE 1.8 확인
+4. 웹앱 너무 찾기 귀찮음 - 밖으로 꺼내고 pom.xml(Effective POM) -> maven-war-plugin(웹어플리케이션 틀 만들어줌) ->     <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-war-plugin</artifactId>
+    <version>3.3.2</version>
+    -> 플러그인에 넣을 거임 -> 우리꺼 pom.xml에 플러그인 찾아서 ->	    	
+    <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-war-plugin</artifactId>
+			    <version>3.3.2</version>
+    </plugin> 넣기 
+    -> 안에 	<configuration>
+			    	<warSourceDirectory>webapp</warSourceDirectory>
+			    </configuration>도 넣기
+5. 프로젝트 버전 2.5->3.1 / 알트 엔터 / 프로젝트 퍼싯트
+6. 프로젝트에서 자바EE에 제너레이트
+7. webapp/WEB-INF/web.xml 만들기
+8. 디스플레이 네임 바꾸기
+9. 상위 컨테이너 생성 - WEB-INF/spring 폴더 만들기 - 필요한 거 넣기
+10. 프로젝트 알트 엔터 - spring-beansupport-scan
+11. datasource-context.xml대로 dbInfo resource에 넣기, mappers도 넣기
+12. 로깅 프레임워크 (log4j2.xml) resource에 넣기
+13. web.xml에서 하위 컨테이너 관련 잘라놓고 서버 한번 실행해보기
+14. maven update 함 해주기(로그 안 떠서...)
+15. 하위 컨테이너 넣어주기(서블릿 버전따라 web.xml 좀 바꾸고)
+16. servlet-context.xml에 필요한 msgs폴더 갖다 넣기(language, validate)
+17. 페이징을 위한 vo 넣기!!!
+
+
+	<!-- The front controller of this Spring Web application, responsible for handling all application requests -->
+	<!-- Spring MVC 프로그래밍 모델이 동작하기 위한 하위 컨테이너 생성 -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name> <!-- 하위 컨테이너의 이름 역할을 함 -->
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup> <!-- 손님이 오기 전에 정문에서 준비를 하겠다는 것 -->
+		<!-- Part API를 이용해 multipart 요청을 파싱할 수 있도록 함 -->
+		<!-- Servlet spec 3.x 방식의 MultipartFilter를 활용할 수 있도록 함 -->
+		<multipart-config></multipart-config>
+	</servlet>
+
+	<!-- Map all requests to the DispatcherServlet for handling -->
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+		<url-pattern>/index.do</url-pattern>
+	</servlet-mapping>
+
+  ==========================================================================================
+
+  Tiles
+  ViewResolver
+  Transaction
+  WebSocket

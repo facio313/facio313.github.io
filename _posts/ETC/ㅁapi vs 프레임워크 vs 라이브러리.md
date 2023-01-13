@@ -31,3 +31,4 @@ IOC 머냐? => 제대로 답 못함 => Dependency Injection이라 하자(Solid�
 개발자의 객체 생성에 대한 권한이 자신이 아닌 다른 대상(Container)으로 옮겨가는 것
 
 Container를 이해하느냐 못하느냐에 따라 실력이 많이 다름
+
