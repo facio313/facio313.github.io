@@ -1679,3 +1679,42 @@ AOP, 프록시
   ViewResolver
   Transaction
   WebSocket
+
+  =======================================================================================
+  01.16
+
+Spring의 첫 번째 전략 : POJO => HCLC(응집력 높이고 결합력 낮추고)
+  Container : 객체의 생명주기 관리(Spring을 쓴다는 것 = Container를 쓴다는 것)
+  web.xml 먼저 보기! => Container에 뭐가 들어있는지 알아보기
+
+datasource-context.xml : Mybatis와 DB를 연결하기 위해 씀 -> cursor 형태의 DB데이터를 DataMapper로서 자바 객체로 만들어야 함
+  Transaction manager
+  SqlSessionFactory
+  Mapperscanner : 다오를 없애고 그걸 Mapper Proxy가 대신 하도록(@Mapper)
+
+root-context.xml : @Component ~(4)
+  Component-scan ~
+
+security-context.xml
+
+servlet-context.xml : @Controller ~(4)
+===========================================================================================
+
+Tiles
+1. 타일 조각 하나(거푸집 안에 들어갈) Attribute
+2. 어떤 모양으로 배치(거푸집) Template
+3. UI 하나를 Definition(?)
+
+여러 개의 Attribute를 Template으로 배치한 다음에 그걸로 Definition들을 만들어 내는 것
+
+Tiles는 프레임워크이니 설정파일이 있음. 그 xml에 <definition></definition>을 넣으면 됨
+
+장점 : content는 안 건드려도 된다!
+css, definition, template => UA가 관리해줘야 함
+
+
+ckeditor
+자바스크립트(정적 자원) => resources 아래에 있어야 함
+관리자는 inline editor
+
+InsertAll
