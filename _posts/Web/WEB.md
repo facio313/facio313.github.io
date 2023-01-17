@@ -1718,3 +1718,103 @@ ckeditor
 관리자는 inline editor
 
 InsertAll
+===================================================================================
+01.17
+
+AOP!
+
+왜 필요한가? 트랜잭션과 연관성?
+
+Atomicity(원자성) : 더 이상 잘게 쪼갤 수 없다. (첨부파일은 종속됨, 쪼갤 수 없음) / 0 or 1
+Consistency(일관성) : 한 트랜잭션에서 값이 변하면 안 됨
+Isolation(고립성) : 트랜잭션 간 독립성
+Durability(지속성) : 한 번 명시하면 변경 전까지 그대로 가야 함. 커밋이 가능해야 함!
+
+출금 - 중간에 하나라도 실패하면 원복해야 함(원자성)
+입금 - 원자성 단위! 트랜잭션 관리, 지속성이 있어야 함
+이체 - 원자성
+카드 넣으면 지속성 유지돼야 함
+
+트랜잭션 관리에 중복코드 발생, 모든 케이스에서 똑같이 들어가는 것 있음(ex) 비밀번호 입력, 기록 남기기 위한 로그인)
+=> 객체지향 프로그래밍의 단점(온전히 하나에 집중 못함?? 뭐가 단점이라는 거지)
+
+POP(Procedure-절차)
+  |
+중복 절차 제거(모듈화 -> 함수 or 객체) -- FOP(Functional-함수)
+  |
+OOP(Object-객체구조)
+  |
+아무리 절차를 분리시켜 모듈화하더라도 중복을 피할 수 없음, 그걸 제거
+  |
+AOP(Aspect-관점)
+사이드로 생각할 게 너무 많아짐
+관점을 두 개로 나눔(관심사를 쪼개는 것!!)
+- 핵심 관심사(Core Concern) : 업무적인 관점(출금, 입금, 이체)
+- 부가 관심사(Cross Cutting Concern) : 핵심 관심사에서 분리시킬 수 잇는 것(로그인, 비밀번호, 트랙잭션 관리)
+AOP 적용 전은 혼자 다 했는데 적용 후 개발자가 나뉨
+1개발자 : 출금, 입금, 이체
+  => 핵심 관심사를 개발해서 나온 것 : Target
+2개발자 : 트랙잭션 관리
+  => 부가 관심사를 개발해서 나온 것 : Advice
+3개발자 : 로그인 관리
+  => 부가 관심사를 개발해서 나온 것 : Advice
+4개발자 : 비밀번호 관리
+  => 부가 관심사를 개발해서 나온 것 : Advice
+-> 각자 맡은 바만 관리
+Target은 Target만 관심
+Advice는 Advice만 관심을 가짐
+다른 건 신경 안 씀
+=> 타겟 3개(출금, 입급 이체) 나오고 어드바이스 3개 나오는데 실제로는 맞물려서 작동함(이 구조 Weaving이라고 한다.)
+각자의 관심, 관점, 업무에 집중 -> Weaving은 신경 안 씀
+이것이 AOP라는 방법론
+전제조건!!! 누가 Weaving을 할  것인가??
+
+pom.xml봐봐
+거기 aspectjWeaver가 Weaving 해주는 애~
+제일 중요한 것이 Weaver
+그 Weaver을 지원해주는 프레임워크가 aspectj
+aspectj가 개발해서 spring에 넣어진 것
+
+어떻게 Weaving함?... 부교재 참고
+
+모든 서비스를 대상으로 전달되는 파라미터와 반환값을 시스템 로그로 기록하가.
+거기에, 서비스(로직)이 실행되는 데 소요되는 시간도 로그로 기록하라
+Core Concern : 모든 서비스(Service 객체) - 출금, 입금, 이체 / 서비스 실행
+Cross Cutting Concern : 시스템 로그로 기록하라 / 소요 시간 로그
+
+core concern -> Target
+core cutting concern -> Advice
+Target + Advice -> Weaving
+
+Advice, pointcut(어떤 타겟을 설정할 것인지 결정)으로 선택된 target을 위빙
+
+Advice + pointcut -> Aspect
+
+=>>> 타겟과 어드바이스 간에 결합력이 없음
+
+
+
+AOP에서 가장 핵심이 되는 기술은 Proxy
+Proxy(대리자) 서버
+클라이언트 <==> Proxy 서버 <==> 서버
+대리자가 있으려면 본인이 먼저 있어야 함
+위에서는 실제 서버가 있고 그걸 대신할 수 있는 Proxy 서버가 있음
+Controller <==> Proxy Target(proceed) <==> Service(Target)
+컨트롤러에게 Target이 아니라 Proxy Target이 주입됨
+컨트롤러의 코드도 Service가 아닌 Proxy Target으로 가서 Service로 전달
+Service도 반환값을 Proxy Target으로 보내고 그걸 컨트롤러에게 전달
+*Proxy라는 개념이 없다면 AOP를 못 씀
+*자바에서는 Interface가 없으면 Proxy를 못 만듬
+
+
+
+git과 svn 차이
+
+
+
+
+
+
+
+
+
