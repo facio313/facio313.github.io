@@ -1578,6 +1578,16 @@ parameter -> path variable(경로변수) - parameter를 안 쓰는 것은 아님
 
 RESTful URI 구조는 동기처리에서는 잘 활용 X memo관리하는 거에는 다 쓸 수 있음!(비동기니까) 해봐봐
 
+/activity           : get - 활동 목록 조회
+/activity           : post - 신규 활동 등록
+/activity           : delete - 전체 활동 삭제
+/activity/ACT000001 : get - 활동 하나 조회
+/activity/ACT000001 : put - 활동 하나 수정
+/activity/ACT000001 : delete - 활동 하나 삭제
+/activity/form      : get - 신규 활동 등록 폼
+수정 폼은?
+
+
 
 spring에서는 file객체를 직접적으로 쓸 필요 없음. resource를 쓰면 됨
 spring container는 그 자체로 resource order가 된다.
