@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+// Promise(약속)를 모르면 옛날 사람
+// 미래에 어떻게 하자(지켜질 수도 있고(resolve), 안 지켜질 수도 있음(reject))
+// 자바스크립트에서 비동기가 많이 사용되고, 비동기 처리에 콜백함수(예를 들면 success)를 많이 사용하다 보니, 콜백지고이란 말이 탄생
+// 이걸 조금 편하게 보이게 만든 것이 promise
+// 처음에 낯설음
+// axios
+
+const Axios = {}; // 네임스페이스용 빈 객체(빈 객체 아니여도 상관 없음, 본인 마음대로 객체이기만 하면 됨)
+
+// 객체에 메서드 추가
+Axios.get = function(p_url) { // 틀
+    // return new Promise((resolve, reject) => {
+    return new Promise((res, rej) => {
+        // resolve("약속이 지켜졌다");
+        // res("약속이 지켜졌다");
+        // rej("문제가 생겼어요");
+        // let error = new Error("에러 났다");
+        // rej(error);
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", p_url, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                res(xhr.responseText);
+            }
+        }
+        xhr.send();
+    });
+}
+
+// then, catch, finally
+/*
+f_promise().then((rslt) => { // res
+    console.log("체킁 : ", rslt);
+}).catch((error) => { // rej
+    console.log("체킁2 : ", error);
+});
+*/
+// }).finally(() => { // 잘 안 씀
+//     console.log("무조건 실행");
+// });
+
+Axios.get("/ajax/data.csv")
+    .then((p_rslt) => {
+        console.log(p_rslt);
+    });
+</script>

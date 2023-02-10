@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+// java의 ArrayList 만들어보기(사실 스크립트의 배열과 거의 같음)
+// namespace는 왜 필요한가? 겹치는 이름이 많은데,,, 어디 누구냐를 정확히 구분 가능
+// 자바에서는 package로 구분
+// 자바스크립트에서는 namespace가 없는데 모듈로??
+
+// 함수는 접두어를 두고 쓰는 게 좋음
+// 프로젝트 진행 시, 변수명, 메서드명 규칙 등을 간단히 정하고 시작
+// 보통 접두어를 잘 정해 놓으면 큰 문제는 안 생김
+
+// 직접 지원하는 namespcae가 없는 관계로 빈 객체를 활용
+const java = {}; // 이름 규칙을 정해서 누가 했는지도 알 수 있음
+java.util = {};
+java.util.ArrayList = function ArrayList() {
+    this.length = 0;
+    return this; // 괜히 써줌
+}
+
+// class
+// function ArrayList() {
+function java.util.ArrayList() {
+    this.length = 0;
+    return this; // 괜히 써줌
+}
+
+// add 메서드
+// ArrayList.prototype.add = function(p_arg) {
+java.util.ArrayList.prototype.add = function(p_arg) {
+    this[this.length] = p_arg;
+    this.length++; // 요게 증가해야 함!
+    return this; // 메서드 체이닝 완성
+}
+
+// ArrayList.prototype.get = function(p_index) {
+java.util.ArrayList.prototype.get = function(p_index) {
+    return this[p_index]; // 넘 쉬움
+    // return this 보통 읽기 메서드에는 메서드 체이닝을 구현하지 않음.
+    // 왜? 값을 원하니까
+}
+
+// ArrayList.prototype.remove = function(p_index) {
+java.util.ArrayList.prototype.remove = function(p_index) {
+    // delete this[p_index]; // 속성 지울 때 delete라는 명령어 사용
+    // this.length--; // 1개 지웠으니, 개수 줄임
+    // function indexing(p_index) {
+    //     if (!p_index + 1 = this.length) {
+    //         for (var i = 0; i < this.length; i++){
+    //             this.add(this.get[i]);
+    //         }
+    //     }
+    // }
+    // indexing();
+    for (let i = p_index; i < this.length - 1; i++) {
+        this[i] = this[i + 1];
+    } 
+    delete this[this.length - 1];
+    this.length--;
+    return this; // 메서드 체이닝
+}
+
+let myArrLst = new ArrayList();
+myArrLst.add("이수현").add("송지은").add("윤호연").remove(1).add("박형준"); // 메서드 체이닝
+// myArrLst.add("송지은");
+// myArrLst.add("윤호연");
+// myArrLst.remove(1).; // index 변호가 연솓되도록 해결하시오
+
+console.log(myArrLst);
+console.log(myArrLst[0]);
+
+// 메서드 체이닝은 각 함수에 return this;를 통해서 손쉽게 완성할 수 있음
+// 하지만 읽기 메서드에서는 구현하지 않음 -> jQuery에서도 마찬가지
+
+// 배열은 아니다! {}니까 객체이다! 속성을 숫자로 줘서 배열처럼 보이게~
+</script>

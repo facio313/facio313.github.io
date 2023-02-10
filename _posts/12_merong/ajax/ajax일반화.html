@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+    
+</body>
+<script>
+    // ajax 일반화(DRY 원칙, Do not Repeat Yourself);
+
+    /*
+    // 멋진 말로 boiler plate 코드라고 부름
+    let xhr = new XMLHttpRequest();
+    xhr.open("메서드", "URL", "비동기여부");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText);
+            // 통신 성공 시 실행해야 할 코드
+        }
+    }
+    xhr.send();
+    */
+
+    // 네임스페이스 변수, 보통 빈 객체(빈 객체 아녀도 상관 없음)를 많이 사용
+    let $ = {}; // 변수명으로 쓸 수 있는 특수 문자 2개 $, _
+
+    // 자바스크립트에서 반복을 없애는 가장 좋은 방법 => 함수화
+    // 1단계 눈에 보이는 대로 일반화, 매개변수 3개
+    // function ajax(p_method, p_url, p_code) {
+    // function ajax(p_setting) {
+    $.ajax = function(p_setting) {
+        let xhr = new XMLHttpRequest();
+        xhr.open(p_setting.method, p_setting.url, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (p_setting.dataType == "json") {
+                    p_setting.success(xhr.responseText); // 함수에 결과를 넘김
+                    alert();
+                    return;
+                }
+                p_setting.success(xhr.responseText); // 함수에 결과를 넘김
+            }
+        }
+        xhr.send();
+    }
+
+    // 오늘 집에 가기 전에 AJAX 쭈욱 한번 보고 감당(적어도 눈만으로도)
+    // ajax({
+    $.ajax({ // 요렇게 해서 jQuery AJAX가 탄생! but 잘 못 쓰는 사람들을 위해 만들어져서 느림..
+        method : "get",
+        url : "data.csv",
+        dataType: "json", // default는 text, 서버에서는 원래 그냥 텍스트로 보냄
+        success : function(p_rslt) {
+            console.log(p_rslt.split("\n")[2]);
+        }
+    });
+    // ajax("get", "data.csv", function(rslt1){
+    //     console.log("메롱1", rslt1);
+    // });
+    // ajax("get", "data.json", function(rslt2){
+    //     console.log("메롱2", rslt2);
+    // });
+    // ajax("get", "data.xml", function(rslt3){
+    //     console.log("메롱3", rslt3);
+    // });
+</script>

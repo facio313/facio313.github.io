@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+    #disp {
+        position : relative;
+        border : 1px solid black;
+        width : 100px; height : 100px;
+    }
+    .aaa {
+        position : absolute;
+        border : 1px solid pink;
+        background-color : black;
+        color : yellow;
+        font-size : 2em;
+        width: 100px; height : 100px;
+    }
+</style>
+</head>
+<body>
+    <!-- 많이 쓰는 레이아웃 - 부모 : relative, 자식 absolute -->
+    <!-- 부모 왼쪽 모서리의 left : 0, top : 0이 기준점이 되어버림-->
+    <h1>부모 relative , 자식 absolute</h1>
+    <h1>부모 relative , 자식 absolute</h1>
+    <h1>부모 relative , 자식 absolute</h1>
+
+    <div id="disp">
+        <div class="aaa" style="z-index : 99999">로제</div> <!-- 네이버 하단 쇼핑 같은 거 다 Z-INDEX임 -->
+        <div class="aaa" style="left : 10px;">제니</div>
+        <div class="aaa" style="left : 40px;">리사</div>
+        <div class="aaa" style="left : 70px;">지수</div>
+    </div>
+</body>
+</html>

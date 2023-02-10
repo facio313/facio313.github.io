@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+
+</body>
+<script>
+    // 변수 선언 var let const의 차이, let과 const는 es6(2015년 말)부터 지원
+    // 그동안 마이크로소프트의 IE11에 묶여 못 쓰고 있었음
+
+    // for (var i = 1; i < 10; i++){} 
+    // console.log("체크 : ", i); // X
+
+    // for (let i = 1; i < 10; i++){}
+    // console.log("체크 : ", i); // ? not defined
+
+    // for (const i = 1; i < 10; i++){}
+    // console.log("체크 : ", i); // ? Assignment to constant variable.
+
+    // let 삶의 영역이 { 과 }으로 결정됨, scope가 다른 언어들과 같음, 사용 권장
+    // var는 function 키워드에 의해서 결정됨, scope가 아주 특별함
+    // const는 오해가 많은데 아예 못 바꾸는 건 아님.. 아래와 같음
+
+    const fbi = "에프비아이";
+    // fbi = "케이지비"; // TypeError : Assignment to constant variable.
+
+    const kgb = ["메렁"];
+    kgb[1] = "헉"; // 이건 잘 됨
+
+    const oneMore = {
+        name : "찬영"
+    }
+
+    // oneMore.name = "안찬영"; // 박스 안의 내용물을 바꾸는 건 OK
+
+    oneMore = { // 이건 안 됨 TypeError: Assignment to constant variable. // 본드로 붙인 박스를 바꾸려 함
+        name : "박인수"
+    }
+
+    // const인 경우 {} 같이 박스 자체를 바꾸는 건 안 되지만 (객체), 안에 있는 것들은 바꿀 수 있음
+    // 즉 틀을 깨지 않겠다라고 선언하는 거라 보면 됨 ★★★★★★★★★★★★★★★★★★★★★★★★★★
+    // name : "박인수"는 {}를 새로 만들어서 그럼
+    // let으로 바꾸면 잘 됨~
+
+    // 그럼 언제 const를 쓰는가?
+    // 보통 함수(function)나, HTML 페이지 내에서 항상 있는 element
+    // 최종적으로 본인 감(느낌)을 키워야 함
+
+    const myBody = document.querySelector("body");
+    const print = function() {
+        alert("메롱");
+    }
+
+
+
+</script>

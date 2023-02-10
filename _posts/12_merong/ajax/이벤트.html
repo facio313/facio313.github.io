@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+    <input type="button" id="mBtn1" value="눌러봐"><br>
+    <input type="button" id="mBtn2" value="누르숑"><br>
+    <div id="disp">
+
+    </div>
+</body>
+<script>
+    const myBtn1 = document.querySelector("#mBtn1");
+    const myBtn2 = document.querySelector("#mBtn2");
+    const disp = document.getElementById("disp");
+
+    // 억지스러운 예제인데, addEventLitener 사용 시 주의를 하지 않으면
+    // 같은 코드가 여러 번 반복될 수 있음
+    // addEventLitener 쓰면 같은 event가 엄청 늘어날 수 있음
+    myBtn1.onclick = function() {
+        myBtn2.addEventListener("click", function() {
+            disp.innerHTML += "메롱";
+            disp.innerHTML += "<br>";
+        });
+        disp.innerHTML += "<br>";
+    }
+// 이벤트 사용 시 꼭 주의!(의외의 복병)
+// on이벤트명 vs addEventListener 차이 꼭 인식!
+
+
+
+/* 둘 다 뜸
+window.addEventListener("load", function() {
+    alert("메롱1");
+});
+window.addEventListener("load", function() {
+    alert("메롱2");
+});
+*/
+
+/* 덮어씌어져서 두 번째 것만 뜸
+window.onload = () => {
+    alert("메롱1");
+}
+
+window.onload = () => {
+    alert("메롱2");
+}
+*/
+
+</script>

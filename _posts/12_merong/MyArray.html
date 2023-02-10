@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    function MyArray() {
+        this.length = 0;
+    }
+
+    MyArray.prototype.push = function(p_val) {
+        this[this.length] = p_val;
+        this.length++;
+    }
+
+    // 요기서 callback 한 번 더 체킁?
+    // 익숙해지면 편함(jQuery가 모두 이걸로 만들어짐)
+    // callback 눈으로 잘 따라가면 훌륭한 사람
+    // jQeury는 약세지만, jQuery는 callback을 남겼음
+    MyArray.prototype.forEach = function(p_cb) { // p_cb는 함수를 받아야 함
+        for (let i = 0; i < this.length; i++) {
+            p_cb(i, this[i]); // 함수 호출
+        }
+    }
+
+    let arr1 = new MyArray();
+    for (let i = 1; i <= 5; i++) {
+        arr1.push("안농" + i);
+    }
+    console.log(arr1);
+
+    arr1.forEach(function(p_index, p_val) {
+        alert(p_index + "===>" + p_val);
+    });
+
+    // 콜백함수는 결국 틀을 만들어놓고 나중에 쓸 때 상세 정의하기??인가
+    // 콜백함수는 간단하게 다른 함수에 매개변수로 넘겨준 함수를 말한다.
+    // 매개변수로 넘겨받은 함수는 일단 넘겨받고, 때가 되면 나중에 호출(called back)한다는 것이 콜백함수의 개념이다.
+    /*
+    function checkGang(count, link, good) {
+    count < 3 ? link() : good();
+    }
+
+    function linkGang() {
+    console.log('1일 3깡은 기본입니다. 아래 링크를 통해 깡을 시청해주세요');
+    console.log('https://youtu.be/xqFvYsy4wE4');
+    }
+
+    function goodGang() {
+    console.log('오늘 할당량은 모두 채우셨습니다! :)')
+    }
+
+    checkGang(2, linkGang, goodGang);
+    // 여기서 linkGang함수와 goodGang함수가 콜백함수 인 것이다.
+    // checkGang함수가 먼저 호출되고, 매개변수로 들어온 count의 값에 따라
+    // linkGang과 goodGang함수 둘 중 한 가지가 나중에 호출된다.
+    */
+    // 변수의 유효범위, 비동기 처리(이벤트 완료 시 함수를 불러서 콜백함수 처리가 대부분의 방식)
+</script>

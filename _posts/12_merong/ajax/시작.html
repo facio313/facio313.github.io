@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+    <div id="disp"></div>
+    <input type="button" onclick="f_ajax1()" value="ajax1">
+    <input type="button" onclick="f_ajax2()" value="ajax2">
+    <input type="button" onclick="f_ajax3()" value="ajax3">
+</body>
+<script>
+
+let xhr = new XMLHttpRequest();
+xhr.open("get", "data.csv", true);
+xhr.onreadystatechange = () => {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        alert(xhr.responseText);
+    }
+}
+xhr.send();
+alert("전 언제 떠요?"); // 비동기(true)면 위에 것보다 이게 먼저 뜸, 동기(false)면 위에 것이 먼저 뜸
+
+// I/O(입력/출력) -> 비동기로 많이 처리함. 좀 기다려야 해서 실행되게 해놓고 고 사이에 다른 일을 하기 위함(효율성 올리기)
+
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+// 주의 JSON 유틸리티가 조금 불량 "", '' 구분
+// 기억이나 메모하지 않으면, 생각외로 힘든 상황이 발생할 수 있음
+// let myObj = "{'name':'김서빈'}"; // 자바스크립트 문법에 맞는 문자열
+let myObj = '{"name":"김서빈"}'; // 자바스크립트 문법에 맞는 문자열
+console.log(JSON.parse(myObj)); // 객체로 변환
+
+// Ajax(에이잭스) 말이 필요없는, 웹개발자에겐 밥줄
+// 이거 이상했던 사람은 필히 외울 것(외우면 이해됨)
+// 처음엔 비동기에 대한 신뢰 부족
+// 2000년 초반에 비동기 ajax 등장(form 태그의 비효율성->전체 다 읽어야 하니..
+
+/*
+// ajax의 원본
+// 실제로 만들어진 건 이것만(당시 XML이 유행. 지금으로 치면 JSON)
+let xhr = new XMLHttpRequest(); // 심부름꾼 아저씨 생성(나 대신 통신해줌)
+// xhr.open("get", "http://127.0.0.1/jsstudy/ajax/data.csv", true) // 심부름 시킬 내용 지정
+// xhr.open("get", "./data.csv", true) // 현재 서버에서 경로를 찾음
+xhr.open("get", "data.csv", true) // 같은 폴더에 있으니까 다 안 써줘도 됨
+xhr.send(); // 심부름꾼 아저씨 이벤트 발생(연락, 진행여부)
+xhr.onreadystatechange = function() {
+    // readyState -> 모든 상태에 관심이 있는 건 아니고, 이기적인 나는 끝난 것만 관심
+    // if (xhr.readyState == 4) { // 나 다 했어요
+    //     if (xhr.status == 200) { // 서버 상태 코드도 확인(위에서 이기적이니까)
+    //         alert("통신 완료상태, 관심은 요기에만");
+    //     }
+    // }
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        alert(xhr.responseText); // 서버에서 받아온 겨로가는 responseText에 담아옴
+    }
+}
+*/
+
+// ajax 변형이 많지만 다들 이게 기본으로 작동된다는 거~
+
+function f_ajax3() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("get", "data.xml", true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200){
+            let myDoc = xhr.responseXML;
+            // let friends = myDoc.getElementsByTagName("friend");
+            let friends = myDoc.querySelectorAll("friend");
+            for (let i = 0; i < friends.length; i++){
+                for (let j = 0; j < 3; j++){
+                    console.log(friends[i].children[j].innerHTML);
+                }
+            }
+        }
+    }
+    xhr.send();
+}
+
+
+function f_ajax2() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("get", "data.json", true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText); // => 문자열
+            console.log(JSON.parse(xhr.responseText)); // => 객체 // 문자열을 JS객체로~ 왜? 쓰기 편하려고
+            // JSON.parse와 JSON.stringify()를 많이 씀
+            // 여기서 다시, 받은 내용을 테이블로 출력해보시오
+            let content = JSON.parse(xhr.responseText);
+            let tblStr = "<table border=1>";
+            tblStr += "<tr><th>이름</th><th>나이</th><th>별명</th></tr>";
+            for (let i = 0; i < content.length; i++) {
+                tblStr += "<tr>";
+                tblStr += "<td>" + content[i].name + "</td>";
+                tblStr += "<td>" + content[i].age + "</td>";
+                tblStr += "<td>" + content[i].alias + "</td>";
+                tblStr += "</tr>";
+            }
+            document.querySelector("#disp").innerHTML = tblStr;
+        }
+    }
+    xhr.send();
+}
+
+
+function f_ajax1() {
+    // ★★★★★★★★★이걸 전역변수로 쓰면 안 됨!!!!★★★★★★★★★★★★
+    // 심부름꾼 아저씨가 겹치는 일 하게 되면 일들의 진행이 겹쳐서 안 되는 것도 많이 발생함
+    // 보통 그래서 function 안에 지역변수로 선언
+    // 지역변수로 써야 다른 비동기 함수가 시킨 일과 충돌나지 않음
+    // 가끔 변수 아낀다고 전역변수로 써서, 심부름꾼 아저씨가 하던 일을 안 하고 다른 일을 함(찾기 어려움)
+    let xhr = new XMLHttpRequest();
+    xhr.open("get", "data.csv", true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            // 가져온 csv 파일 내용을 #disp에 <table> 태극 이용해 출력하기'
+            // 주로 서버에서 받아온 값을 가지고, 화면(view)을 제어(만들고, 지우고, 수정 등)하게 됨
+            let content = xhr.responseText;
+            content = content.split("\n"); // 엔터키로 자름
+            let tblStr = "<table border=1>";
+            tblStr += "<tr><th>이름</th><th>나이</th><th>별명</th></tr>";
+            
+            for (var i = 1; i < content.length; i++) {
+                tblStr += "<tr>";
+                let tds = content[i].split(", ");
+                for (var j = 0; j < tds.length; j++){
+                    tblStr += "<td>" + tds[j] + "</td>";
+                }
+                tblStr += "</tr>";
+            }
+            document.querySelector("#disp").innerHTML = tblStr;
+            
+        }
+    }
+    xhr.send(); // 보통 send를 onreadystatechange 뒤에 씀
+    // 실행하고 이벤트 등록하면 이벤트를 놓칠 수도 있어서(너무 짧거나 그러면), 이벤트 등록하고 실핸하는 순서로
+}
+</script>

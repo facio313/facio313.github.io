@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div id="disp" style="border : 2px solid pink;"></div>
+<script>
+const members = [
+    {
+        name : "양서연",
+        pos : "lvl1"
+    },
+    {
+        name : "임채리",
+        pos : "lvl2"
+    },
+    {
+        name : "박형준",
+        pos : "lvl3"
+    },
+    {
+        name : "최경수",
+        pos : "lvl4"
+    },
+    {
+        name : "허근주",
+        pos : "lvl2"
+    }
+];
+
+const position = {
+    "lvl1" : "사장님",
+    "lvl2" : "회장님",
+    "lvl3" : "고객님",
+    "lvl4" : "손님"
+};
+
+// dom.innerHTML = "<table border='1'></table>";
+// let tbl = document.querySelector("table");
+// let trTags = "<tr><th>순번</th><th>이름</th><th>직책</th></tr>";
+// for (let i = 0; i <= members.length; i++) {
+//     console.log(members[i].name);
+//     trTags += "<tr>";
+//     trTags += "<td>" + (i + 1) + "</td>";
+//     trTags += "<td>" + members[i].name + "</td>";
+//     trTags += "<td>" + position[members[i].pos] + "</td>";
+//     trTags += "</tr>";
+// }
+// tbl.innerHTML = trTags;
+
+let tblStr = "<table border=2>";
+tblStr += "<tr><th>순번</th><th>이름</th><th>직책</th></tr>";
+for (let i = 0; i <= members.length; i++) {
+    if ( members[i] != 'undefined' && members[i] != null) {
+        tblStr += `<tr>
+            <td>${(i + 1)}</td>
+            <td>${members[i].name}</td>
+            <td>${position[members[i].pos]}</td>
+            </tr>`;
+    }
+}
+tblStr += "</table>";
+disp.innerHTML = tblStr;
+
+// Servlet 자바 서버 위에서 돌아가는 프로그램
+// applet
+</script>
+</body>
+</html>

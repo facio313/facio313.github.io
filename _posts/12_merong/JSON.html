@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+    <!-- 주의! form 태그 안에 form 태그 있으면 안 됨! 찾기 힘듬 -->
+    <form action=""">
+        <input type="text" name="aaa1" value="a1"/><br/>
+        <input type="text" name="aaa2" value="a2"/><br/>
+        <input type="text" name="aaa3" value="a3"/><br/>
+        <div name="huk">메롱</div>
+        <input type="text" name="aaa4" value="a4"/><br/>
+        <textarea name="aaa5">a5</textarea>
+    </form>
+    <form action=""">
+        <input type="text" name="bbb1" value="b1"/><br/>
+        <input type="text" name="bbb2" value="b2"/><br/>
+        <input type="text" name="bbb3" value="b3"/><br/>
+        <input type="text" name="bbb4" value="b4"/><br/>
+    </form>
+</body>
+<script>
+    let myArr = {}; // 요거랑 배열이랑 잘 구분해서 받아들임 // 배열 선언이 아니라 객체로 선언됨.
+    // myArr.0 = "R"; // 변수명은 숫자로 시작할 수 없다 위반, 영문자 or $,_ 가능
+    myArr[0] = "R"  // .접근법으로는 안 되나 []접근법으로 가능!!
+    myArr[1] = "O";   // .접근법이 빠르긴 하지만 의미가 애매해지는 부분이 있음
+    myArr["2"] = "Z"; // 위나 같음
+    myArr["3"] = "E"; 
+    // 그래서 객체의 속성으로 들어감 ★★★★★★★★★★★★★★★★★★★★★★★★★★
+    console.log(myArr);
+
+
+    // console.log(document.forms);
+    // console.log(document.forms[0]);
+    // console.log(document.forms[0][0]);
+    // console.log(document.forms[1].bbb2.value); // forms에 자동으로 form객체가 유사 배열로 담김
+    // console.log(document.forms[0].elements); // 자동으로 사용자 입력태그(input만!!) 객체를 elements에 담아줌
+    // console.log(document.getElementsByTagName("form")[0][1].value);
+    // console.log(document.getElementsByTagName("form")[0].aaa2.value);
+    // console.log(document.querySelector("form")); // 첫 번째 form
+    // console.log(document.querySelectorAll("form")); // 모든 form
+
+    /*
+    const form0Elems = document.forms[0].elements;
+    for (let i = 0; i < form0Elems.length; i++) {
+        console.log(form0Elems[i].name, " = ", form0Elems[i].value);
+    }
+    */
+
+    /*
+    const elems = document.forms[0].elements;
+    for (let i = 0; i < elems.length; i++) {
+        // console.log(elems["aaa" + (i+1)], " = ", elems["aaa" + (i+1)].value);
+        console.log(elems["aaa" + (i+1)].name, " = ", elems["aaa" + (i+1)].value);
+    }
+    */
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+// JSON(JavaScript Object Notation) 자바스크립트 객체 표기법(엄청 중요)
+// json은 현재 웹(데이터 전송 포맷)에서뿐만 아니라 사방(설정파일, 객체지향DB)에서 (저장포맷) 사용됨
+// 배열도 JSON의 한 가지 형태로 받아들이는 게 정신 건강에 좋음
+// 배열식 접근법을 꼭 이해해야 함. 매우매우 중요하니 써보길
+
+
+/*
+let name = "fbi";
+let simple = { // new obejct()
+    // name : "전혜수"
+    // "name" : "전혜수" // 객체의 속성명은 ""가 붙지 않아도 항상 문자열로 처리됨. 그래서 변수가 아니라 ""문자열로 처리됨.
+
+    ["fbi"] : "전혜수" // 그런데 변수처리를 하고 싶다? []...그런데 simple.name이 안 뜸
+    [name] : "전혜수" // 위와 같음
+}
+
+alert(simple.fbi);
+alert(simple.name);
+*/
+
+let simple = {}; // 빈 객체 선언
+// simple.name = "전혜수"; // 속성 추가 -> 이게 더 빨라서 더 많이 씀. 이걸 선호
+// simple["name"] = "안전혜쑤" // 요따구 문법도 존재 -> 배열식 접근법 //  복잡, 커지면서 꼭 필요한 상황이 자주 발생
+let ppp = "huk";
+simple[ppp] = "안전혜수" // 배열식 접근법 변수 받기
+// alert(simple.huk);
+// alert(simple["huk"]);
+
+</script>

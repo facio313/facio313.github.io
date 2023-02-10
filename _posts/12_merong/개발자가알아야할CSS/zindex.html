@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+    #wrapper {
+        position : relative;
+        width : 100px;height : 100px;
+    }
+    .layer {
+        position : absolute;
+        background-color: black;
+        color: yellow;
+    }
+</style>
+</head>
+<body>
+    <input type="button" value="다음" onclick="f_next()">
+    <div id="wrapper">
+        <div class="layer" style="z-index:1000;">
+            <h1>메롱1</h1>
+            <h1>메롱1</h1>
+        </div>
+        <div class="layer">
+            <h1>메롱2</h1>
+            <h1>메롱2</h1>
+        </div>
+        <div class="layer">
+            <h1>메롱3</h1>
+            <h1>메롱3</h1>
+        </div>
+        <div class="layer">
+            <h1>메롱4</h1>
+            <h1>메롱4</h1>
+        </div>
+    </div>
+<script>
+    const layers = document.querySelectorAll(".layer");
+    let startIndex = 1;
+    
+    function f_initIndex() { // z-index를 전부 특정 값으로 초기화
+        for (let i = 0; i < layers.length; i++) {
+            layers[i].style.zIndex = 1;
+        }
+    }
+
+    function f_next() {
+        f_initIndex(); // 모두 같은 값으로 초기화 시키고
+        layers[startIndex].style.zIndex = "99999"; // 원하는 것만 큰 값으로
+        startIndex++;
+        if (startIndex == 4) {
+            startIndex = 0; // 처음으로 되돌리기
+        }
+        setTimeout(f_next, 1000); // 1초마다 넘어가기
+    }
+</script>
+</body>
+</html>

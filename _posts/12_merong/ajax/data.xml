@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<friends>
+    <friend>
+        <name>로제</name>
+        <age>26</age>
+        <alias>로로</alias>
+    </friend>
+    <friend>
+        <name>제니</name>
+        <age>27</age>
+        <alias>제제</alias>
+    </friend>
+    <friend>
+        <name>리사</name>
+        <age>24</age>
+        <alias>리리</alias>
+    </friend>
+    <friend>
+        <name>지수</name>
+        <age>28</age>
+        <alias>지지</alias>
+    </friend>
+</friends>

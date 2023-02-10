@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+    #disp {
+        /* position : static; 브라우저가 알아서 그려라(position의 기본값) */
+        /* position : relative; static으로 만든 기준점에 따라 움직임 */
+        /* position : absolute; 브라우저 왼쪽 모서리 기준으로 움직임 */
+        left : 10px; top : 10px;
+        border : 1px solid black;
+    }
+    .aaa {
+        border : 1px solid pink;
+        display : inline-block;
+        width : 100px; height : 100px;
+    }
+    #lisa {
+        /* position : absolute; */
+        position : relative;
+        left : 100px; top : 100px;
+        background-color : green;
+    }
+    #banner {
+        font-size : 4em;
+        background-color : black;
+        color : yellow;
+        position : fixed; /* 고정 */
+        left : 0; top : 0;
+    }
+</style>
+</head>
+<body>
+    <div id="banner">최경수 팀장님 만만세</div>
+    <div id="disp">
+        <div class="aaa">로제</div>
+        <div class="aaa">제니</div>
+        <div class="aaa" id="lisa">리사</div>
+        <div class="aaa">지수</div>
+    </div>
+    <div>
+        <div class="aaa">로제</div>
+        <div class="aaa">제니</div>
+        <div class="aaa">리사</div>
+        <div class="aaa">지수</div>
+    </div>
+    <div>
+        <div class="aaa">로제</div>
+        <div class="aaa">제니</div>
+        <div class="aaa">리사</div>
+        <div class="aaa">지수</div>
+    </div>
+    <div>
+        <div class="aaa">로제</div>
+        <div class="aaa">제니</div>
+        <div class="aaa">리사</div>
+        <div class="aaa">지수</div>
+    </div>
+    <div>
+        <div class="aaa">로제</div>
+        <div class="aaa">제니</div>
+        <div class="aaa">리사</div>
+        <div class="aaa">지수</div>
+    </div>
+    <div>
+        <div class="aaa">로제</div>
+        <div class="aaa">제니</div>
+        <div class="aaa">리사</div>
+        <div class="aaa">지수</div>
+    </div>
+<script>
+    const disp = document.querySelector("#disp");
+    // disp.style.left = "300px";
+    // disp.style["top"] = "400px";
+    // 안 움직임.. default가 static이라서 브라우저한테 알아서 그리라 해놓고 내가 제어하려고 함..
+</script>
+</body>
+</html>

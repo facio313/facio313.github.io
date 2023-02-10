@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+    <div class="aaa">서범수</div>
+    <div class="aaa bbb">민경진</div>
+    <div class="aaa">장은호</div>
+    <div class="aaa">이현주</div>
+    <div class="aaa bbb">이선민</div>
+    <div class="aaa bbb">송지은</div>
+
+    <input type="text" name="myTxt" value="허근주" /><br>
+    <input type="text" name="myTxt" value="양서연" /><br>
+    <input type="text" name="myTxt" value="박형준" /><br>
+    <input type="text" name="myTxt" value="임채리" /><br>
+    <input type="text" name="myTxt" value="윤호연" /><br>
+    <input type="text" name="myTxt" value="이수현" /><br>
+
+    <input type="button" sBtn value="누루숑1" />
+    <input type="button" value="누루숑2" />
+    <input type="button" sBtn value="누루숑3" />
+</body>
+<script>
+    // 콜백 연습을 위해 jQuery 코어를 만들기
+    // 실제 jQuery는 훨씬 더 복잡한데, 이해를 돕기 위해 간단하게
+
+// let factory; // 전역변수 선언 => window.함수명!
+// 즉각실행함수 -> 중요하다고 표시 가능, 외부에서 못 건드리도록 감추기도 가능
+(function() {
+    // ★★★★★★★★★★★★★★★★★★★★★★★★★
+    // class를 쓸 것(사용자 정의 데이터 타입)
+    // jQuery는 선택된 element를 전부 자신의 속성으로 옮겨 담음
+    // 옮겨놔야 마음대로 조작하기 편함, 대신 성능에 대한 손해는 감수 => 결론 : 편리↑ 성능↓
+    // let MyDom = function(p_selector) {
+    let MyDom = function(p_selector) {
+        let elems = document.querySelectorAll(p_selector);
+        // 위에 가져온 걸 옮겨 담음
+        this.length = elems.length; // 속성 length  선언
+        // for (let i = 0; i < elems.length; i++) {
+        for (let i = 0; i < this.length; i++) {
+            this[i] = elems[i];
+        }
+        return this; // 명시적 표현(생략해도 상관없음)
+    }
+
+    // new를 없애기 위해 Factory Pattern을 많이 씀(함수)
+    let $ = function(p_sel) {
+        return new MyDom(p_sel); // 생성해서 리턴
+    }
+    // window.factory = factory; // 전역변수 factory와 지역변수 factory를 연결(참조)
+    window.$ = $;
+
+    // 자바는 자동으로 해주는데, 메서드를 prototype으로 해줘야 함 -> 메모리 낭비 
+    // MyDom.prototype을 밖에서 접근하도록 해야 개발자들이 자신의 메서드(보통 플러그인)를 추가할 수 있음
+    // MyDom.prototype.메서드명 = function() {}
+    $.fn = MyDom.prototype; // 지역변수 $가 전역변수 $에 의해 참조되기 때문에 즉각실행함수 밖에서도 $.fn으로 MyDom.prototype을 접근할 수 있음(fn은 마음대로)
+    // ★★★★★★★★★★★★★★★★★★★★★★★★★
+})();
+// 동적 메서드를 추가할 수 있음
+// html, val, attr, css, prop
+$.fn.html = function(p_arg) { // innerHTML 속성을 편하게 다루는 jQuery 메서드 // jquery사이트에서 매개변수로 뭐가 올 수 있는지 함 봐봐
+    // 1.매개변수가 안 넘어왔을 때
+    // => undefined // undefined, null => false
+    if (!p_arg) { // 첫 번째 element의 innerHTML을 리턴(읽기)
+        return this[0].innerHTML; // 읽기에서는 메서드 체이닝을 적용하지 않음
+    }
+    // 2.매개변수가 string이 넘어왔을 때
+    if (typeof(p_arg) == "string") {
+        for (let i = 0; i < this.length; i++) {
+            this[i].innerHTML = p_arg;
+        }
+    }
+    // 3.매개변수가 function이 넘어왔을 때 // 부분쓰기(선택적 쓰기)
+    if (typeof(p_arg) == "function") {
+        for (let i = 0; i < this.length; i++) { // jQuery는 한 번만 콜백함수를 부르는 게 아님, 자기가 가진 엘리먼트 개수만큼 부름 => 그래서 ajax 이용한 메모 관리에서 update 시 그렇게 많이 값이 나왔었나
+            // this[i].innerHTML = p_arg(i, this[i].innerHTML);
+            // call, apply, bind?(this를 강제로 세팅하는 메서드)
+            this[i].innerHTML = p_arg.call(this[i], i, this[i].innerHTML);
+        }
+    }
+    return this; // 메서드 체이닝을 위함
+}
+
+// 사용자 입력태그의 value 속성만 편하게 다루는 메서드
+$.fn.val = function(p_arg) {
+    if (!p_arg) {
+        return this[0].value;
+    }
+    if (typeof(p_arg) == "string") {
+        for (let i = 0; i < this.length; i++) {
+            this[i].value = p_arg;
+        }
+    }
+    if (typeof(p_arg) == "function") {
+        for (let i = 0; i < this.length; i++) {
+            this[i].value = p_arg.call(this[i], i, this[i].value);
+        }
+    }
+    return this;
+}
+
+// console.log($("input[name=myTxt]").val()); // 읽기는 첫 번째 것만
+// $("input[name=myTxt]").val("박시윤"); // 쓰기 전부 // 선택적으로 하고 싶다면 콜백함수 써야 함
+$("input[name=myTxt]").val(function(p_index, p_val) { // 선택적 쓰기 작업
+    if (p_val == "이수현") {
+        // console.log(this); // 이수현을 가진 텍스트박스 // 무얼 가리키고 있는가가 중요(call by reference, 참조방식!!)
+        this.style.fontSize = "2em";
+        this.style.backgroundColor = "black";
+        this.style.color = "yellow";
+        return `${p_val} 만만세`;
+    }
+    return p_val // 조건에 해당하지 않는 것은 원래 값 리턴
+});
+
+// 알고 보면 초 간단한 거
+$.fn.on = function(p_eventName, p_cb) {
+    for (let i = 0; i < this.length; i++) {
+        this[i].addEventListener(p_eventName, p_cb); //이벤트 등록!
+    }
+    return this; // 메서드 체이닝
+}
+
+$("[sBtn]").on("click", function() {
+    console.log("나 눌렀닝");
+    console.log(this); // 누른 버튼
+});
+
+// console.log($(".bbb").html()); // 읽기(첫 번째 하나)
+// $(".bbb").html("<h1>전 혜수에요</h1>"); // 쓰기(전부)
+// jQuery는 내부를 이해하지 않고 쓰면, 성능과 메모리 모두 엄청 낭비되는 특성이 있음
+
+let $bbbs = $(".bbb"); // 찾은 걸 저장해둬야 유리! // $는 제이쿼리 객체라는 걸 표시
+
+// $(".bbb").html(function(p_index, p_html) {
+$bbbs.html(function(p_index, p_html) {
+    // console.log("this체킁 : ", this);
+    // console.log(p_index + " : " + p_html); // 콜백 아직 조금 낯설음
+    if (p_index == 1) {
+        return "<h1>" + p_html + "만만세</h1>";
+    }
+    return p_html; //조건에 맞지 않는 건 원래 가진 값 돌려주기
+// }).html(function(p_index, p_html) {
+});
+$bbbs.html(function(p_index, p_html) {
+    if (p_html == "민경진") {
+        return `<h1>${p_html}</h1>`;
+    }
+    return p_html;
+});
+
+// 위 메서드 체이닝이랑 비교 시 성능낭비가 심함!
+// bbb를 아까 찾았는데 또 찾음(메모리도 낭비)..
+// 이렇게 따로 쓰는 건 아주 안 좋은 방법
+/* 이렇게 쓸 거면 변수를 받아서 쓰는 게 나음 => 메서드체이닝이랑 변수 중에 머가 더 나음?
+$(".bbb").html(function(p_index, p_html) {
+    if (p_html == "민경진") {
+        return `<h1>${p_html}</h1>`;
+    }
+    return p_html;
+});
+*/
+// for문이 cpu로드율이 큼
+
+// let check = new MyDom(".aaa");
+// jQuery $의 탄생
+// let check = $(".aaa.bbb").html();
+// console.log(check);
+    
+
+</script>

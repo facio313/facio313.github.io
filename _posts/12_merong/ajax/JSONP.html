@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<hr>
+    <h1>JSONP (JSON Padding)에 대해 알아보자</h1>
+    <input type="text" id="schText" value="">
+    <input type="button" id="schBtn" value="서칭"></hr>
+    <div id="disp"></div>
+    
+<script>
+    const disp = document.querySelector("#disp");
+
+    const schText = document.querySelector("#schText");
+    const schBtn = document.querySelector("#schBtn");
+
+    const preUrl = "https://www.flickr.com/services/feeds/photos_public.gne?tags=";
+    const postUrl = "&format=json";
+
+    schBtn.onclick = () => {
+        let schUrl = preUrl + schText.value + postUrl;
+        // 실제 요청은 script src로 해야 돼서 script태그를 만들어야 함
+        let script = document.createElement("script");
+        script.src = schUrl;
+        document.head.lastChild.remove();
+        document.head.appendChild(script); // head랑 body는 오직 한 번만 나와야 하기 때문에 id를 주지 않아도 이렇게 써도 됨
+        // 화면에 투입, 그러면 스크립트가 실행됨
+    }
+
+    function jsonFlickrFeed(p_data) {
+        // console.log(p_data.items[1]);
+        // for (let i = 0; i < p_data.items.length; i++) {
+        //     disp.innerHTML += "<img src=" + p_data.items[i].media.m +">"
+        // }
+
+        disp.innerHTML = "";
+        let imgs = p_data.items;
+        for (let i = 0; i < imgs.length; i++) {
+            // 이미지 만들기
+            let img = document.createElement("img"); // 메모리에 img 태그 생성
+            img.src = imgs[i].media.m;
+            disp.appendChild(img);
+        }
+    }
+</script>
+<!-- 서버 세팅을 안 바꾸고 제공하기 위해 script를 제공함 -->
+<!-- script src는 cross-origin에 상관없음(css도 마찬가지) => 정적 자원이니까 
+    JSONP는 CORS(Cross Origin Resource Sharing) 정책 회피 방법 중 한 가지
+-->
+<script>
+    /* 기본적으로 cross-origin ajax 요청은 보통 막혀있음(서버관지라가 풀어주지 않는 이상)
+    let xhr = new XMLHttpRequest();
+    xhr.open("get", "https://www.flickr.com/services/feeds/photos_public.gne?tags=cat&format=json", true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText);
+        }
+    }
+    xhr.send();
+    */
+</script>
+<script src="https://www.flickr.com/services/feeds/photos_public.gne?tags=dog&format=json"></script>
+</body>
+</html>
+<script>
+/*
+Origin : ajax에서 마지막으로 보내는 것?
+
+1. http : 프로토콜(규칙,규약)
+2. 시윤.com : 도메인(서버명)
+3. :8080 : 포트번호(64K개 있음) - 1K = 2의 10승 = 1024 / 1M = 2의 20승 / 1G = 1M x 1k = 2의 30승
+=> 이 세 개(프로토콜, 도메인, 포트번호)를 origin이라고 부름, 이 중 하나라도 다르면 다른 오리진(cross origin)이라고 부름
+=> 웹서버는 기본 포트번호로 80번을 씀, 80은 생략해도 됨.
+=> 중요한 이유!! 한 PC 에서 한 서버에 index.html을 요청하는데, 그 index.html에서 ajax로 다른 서버에 데이터를 요청함.
+자기가 온 데로 요청하는 건 괜찮은데, 다른 서버로 요청하는 건(cross origin) 원래 막음(default policy : same-origin) => ajax의 제약사항
+ajax로 하면 막혀있는 이유? 다른 서버에서 받은 요청을 변수에 받은 후 조작이 가능함(동적으로 받으면 그냥 페이지 딱 보여주고 말지만 ajax는 다르니까)
+이 문제를 해결하는 근본적인 방법은 내 서버에 요청 후 서버가 다른 서버로 요청한 후 돌려받아야 함 => 이걸 '우회'라고 함
+서버끼리는 '사업자' 느낌이라 괜찮은데, 익명의 페이지에서는 어떤 일이 일어날지 잘 모름
+ajax에서 cross-origin 극복 방법 = 우회
+jsonp(jsonpadding)도 있는데 이건 서버에서 지원해줘야 함(지원해주는 곳이 별로 없음)
+
+CORS : Cross Origin Resource Sharing
+
+// 자바스크립트의 합수 호출 모습(매개변수는 json타입)
+jsonFlickrFeed({
+    ~ : ~,
+})
+*/
+</script>
