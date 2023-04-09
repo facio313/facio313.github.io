@@ -3,7 +3,7 @@ layout: post
 title: Template Method
 description: Design pattern 중 하나인 Template Method pattern에 대해 알아보자
 date: 2022-12-26
-published: false
+published: true
 categories: Design Pattern
 ---
 # Template
@@ -80,7 +80,7 @@ public abstract class TemplateClass {
 	}
 }
 ```
-슈퍼클래스의 경우 실체 간 공통 특성을 추출한 추상 클래스(해당 게시글 참고)로 만들어 상속을 통해 자식클래스만 만들게 한다. 클래스 안에 template method를 만들어 순서를 고정시키고, final로 만들어 다른 곳에서 바꾸지 못하게 한다. 그 밑에 hook method를 만드는데, 그중 바꾸지 못하고 상속으로만 재정의할 수 있는 추상 메서드(해당 게시글 참고)를 만든다. 다음과 같이 재정의할 수 있다.
+슈퍼클래스의 경우 실체 간 공통 특성을 추출한 추상 클래스로 만들어 상속을 통해 자식클래스만 만들게 한다. 클래스 안에 template method를 만들어 순서를 고정시키고, final로 만들어 다른 곳에서 바꾸지 못하게 한다. 그 밑에 hook method를 만드는데, 그중 바꾸지 못하고 상속으로만 재정의할 수 있는 추상 메서드를 만든다. 다음과 같이 재정의할 수 있다.
 ```
 public class DerivedClass1 extends TemplateClass {
 

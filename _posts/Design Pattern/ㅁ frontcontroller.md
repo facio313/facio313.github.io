@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Front Controller
-date: 2022-12-29
+date: 2023-01-08
 published: true
 description: 디자인 패턴 중  하나인 Front Contoller 패턴에 대해서 알아보자
 categories: Design Pattern
