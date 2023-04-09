@@ -4,7 +4,7 @@ title: Template Method
 description: Design pattern 중 하나인 Template Method pattern에 대해 알아보자
 date: 2022-12-26
 published: true
-categories: Design Pattern
+categories: DesignPattern
 ---
 # Template
 템플릿이란 정형화된 틀을 말한다. 어떤 것을 만들 때 안내 역할을 하는, 사용상의 형식으로 형판, 형틀 등을 뜯한다. 특정한 서식 구조를 만들어놓은 양식으로 프로그래밍을 할 때도 적용될 수 있다.

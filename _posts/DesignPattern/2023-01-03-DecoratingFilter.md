@@ -4,7 +4,7 @@ title: Decorating Filter
 description: Design pattern 중 하나인 Decorating Filter pattern에 대해 알아보자
 date: 2023-01-03
 published: true
-categories: Design Pattern
+categories: DesignPattern
 ---
 파일 처리
 대부분의 보안 프레임워크는 이 필터를 이용한다.
