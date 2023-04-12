@@ -2,7 +2,7 @@
 layout: post
 title: Git(coworking)
 date: 2022-12-25
-published: false
+published: true
 description: 협업 툴 중 git의 협업기능을 이용하자
 categories: Git
 tags: [git, 깃, github]
