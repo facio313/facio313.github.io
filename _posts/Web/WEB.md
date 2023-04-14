@@ -1659,6 +1659,7 @@ AOP, 프록시
 15. 하위 컨테이너 넣어주기(서블릿 버전따라 web.xml 좀 바꾸고)
 16. servlet-context.xml에 필요한 msgs폴더 갖다 넣기(language, validate)
 17. 페이징을 위한 vo 넣기!!!
+18. 롬복?
 
 
 	<!-- The front controller of this Spring Web application, responsible for handling all application requests -->
