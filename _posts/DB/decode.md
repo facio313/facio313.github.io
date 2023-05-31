@@ -1,0 +1,1 @@
+case when then 을 쓰도록 하자.

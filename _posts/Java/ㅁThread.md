@@ -6,4 +6,4 @@ Runnable
 
 Java에서는 다중상속이 불가능하여 Thread를 상속 받지 못하는 경우 implements로 Runnable을 받아 구현하여 처리 할 수 있습니다.
 
- 
+ thread vs runnable
