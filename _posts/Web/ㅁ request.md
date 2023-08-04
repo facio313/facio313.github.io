@@ -96,3 +96,14 @@ preflight request - options
 - 상대가 post, get 같이 공통적인 게 아닌 다른 메서드를 받아들일 수 있는가에 대해 알아보기 위해 사전 요청을 취해보는 것?
 
 ★★★★★★get방식에서 한글이 깨지면 서버의 connector!!!  usebody~~ 시점을 뒤로 미룸
+
+메서드
+1. get
+2. head : 헤더 정보 외 데이터를 서버로 전송하지 않고, 응답을 요구하지만 응답 body를 포함하진 않는다. 
+3. post
+4. put
+5. delete
+6. connect
+7. options
+8. trace
+9. patch
